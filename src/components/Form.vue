@@ -127,9 +127,6 @@ export default {
   }, 
   methods: {
     submitForm() {
-      console.log(process.env)
-      console.log("http://" + process.env.VITE_VUE_APP_PREDICT_URL + "/predict")
-      console.log(process.env)
       const formData = {
         total_long_distance_fee: this.total_long_distance_fee || this.default_values.def_total_long_distance_fee,
         total_charges_quarter: this.total_charges_quarter || this.default_values.def_total_charges_quarter,
@@ -142,10 +139,11 @@ export default {
         has_device_protection: this.has_device_protection || "No",
         has_online_backup: this.has_online_backup || "No",
       };
+      const api = process.env.VITE_VUE_APP_PREDICT_URL + "/predict";
+      console.log(api)
+      console.log(formData)
       axios.post(
-        // "http://localhost:5000/predict",
-        // process.env.VUE_APP_PREDICT_URL + "predict",
-        process.env.VITE_VUE_APP_PREDICT_URL + "/predict",
+        api,
         formData
       ).then((response) => {
         console.log("Response is", response.data);
