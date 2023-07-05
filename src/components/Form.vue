@@ -139,9 +139,7 @@ export default {
         has_device_protection: this.has_device_protection || "No",
         has_online_backup: this.has_online_backup || "No",
       };
-      const api = process.env.VITE_VUE_APP_PREDICT_URL + "/predict";
-      console.log(api)
-      console.log(formData)
+      const api = "https://" + process.env.VITE_VUE_APP_PREDICT_URL + "/predict";
       axios.post(
         api,
         formData
