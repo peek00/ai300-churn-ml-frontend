@@ -1,22 +1,23 @@
 <template>
-  <div class="row vh-100 align-items-center justify-content-center">
-    <div class="col-8 bg-light h-75 rounded">
-      <div class="row h-100 p-3">
-        <div class="col-5 bg-dark rounded text-white p-4 ps-5">
+    <div class="col-xl-8 bg-light rounded">
+      <div class="row  p-3" >
+        <div class="col-xl-5 bg-dark rounded text-white p-4 ps-5">
           <p class="fw-bold ">
             AI 300
           </p>
 
-          <h3 >
+          <h3 class="py-5" >
             Predict your customer churn with us now!
           </h3>
           <p>
             This machine learning prediction uses a CatBoost model and Principal Component Analysis (PCA) to predict whether a customer is likely to churn or not.
-            ,<br>
-            The model was trained on a dataset on Kaggle and made as part of a project by Heicoder.
+           
+          </p>
+          <p >
+            This model was made during the course of Heicoders AI300.
           </p>
         </div>
-        <div class="col-7 rounded px-5">
+        <div class="col-xl-7 rounded px-5 pt-3">
           <div class="row pb-4">
             <h1>
               Customer Churn Prediction
@@ -27,14 +28,14 @@
           </div>
         
           <div class="row">
-            <div class="col-4">
+            <div class="col-md-4">
               <label for="total_long_distance_fee" class="form-label">Total Long Distance Fee</label>
               <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1">$</span>
                 <input type="number" class="form-control" id="total_long_distance_fee" :placeholder="default_values.def_total_long_distance_fee" v-model="total_long_distance_fee" >
               </div>
             </div>
-            <div class="col-4">
+            <div class="col-md-4">
               <label for="total_charges_quarter" class="form-label">Total Charges Quarter</label>
               <div class="input-group mb-3">
                 <span class="input-group-text" id="basic-addon1">$</span>
@@ -44,17 +45,17 @@
           </div>
 
           <div class="row">
-            <div class="col-3 mb-3">
+            <div class="col-sm-3 mb-3">
               <label for="tenure_months" class="form-label">Tenure Months</label>
               <input type="number" class="form-control" id="tenure_months" :placeholder="default_values.def_tenure_months" v-model="tenure_months">
             </div>
-            <div class="col-3 mb-3">
+            <div class="col-sm-3 mb-3">
               <label for="num_referrals" class="form-label">Num of Referrals</label>
               <input type="number" class="form-control" id="num_referrals" :placeholder="default_values.def_num_referrals" v-model="num_referrals">
             </div>
           </div>
 
-          <div class="col-6 mb-3">
+          <div class="col-sm-6 mb-3">
             <label for="num_dependents" class="form-label">Num of Dependents</label>
             <input type="number" class="form-control" id="num_dependents" :placeholder="default_values.def_num_dependents" v-model="num_dependents">
           </div>
@@ -86,7 +87,7 @@
                 <label class="form-check-label" for="has_online_backup">Online Backup</label>
               </div>
             </div>
-            <button type="submit" @click="submitForm()" class="btn btn-primary me-3">Get Prediction</button>
+            <button type="submit" @click="submitForm()" class="btn btn-dark me-3">Get Prediction</button>
             <span class="text-danger fw-bold" v-if="prediction == 1">
               This customer is expected to churn!
             </span>
@@ -96,7 +97,6 @@
         </div>
       </div>
     </div>
-  </div>
 
 </template>
 
@@ -127,17 +127,20 @@ export default {
   }, 
   methods: {
     submitForm() {
+      console.log(process.env)
+      console.log("http://" + process.env.VITE_VUE_APP_PREDICT_URL + "/predict")
+      console.log(process.env)
       const formData = {
         total_long_distance_fee: this.total_long_distance_fee || this.default_values.def_total_long_distance_fee,
         total_charges_quarter: this.total_charges_quarter || this.default_values.def_total_charges_quarter,
         tenure_months: this.tenure_months || this.default_values.def_tenure_months,
         num_dependents: this.num_dependents || this.default_values.def_num_dependents,
         num_referrals: this.num_referrals || this.default_values.def_num_referrals,
-        married: this.married || "No",
+        married: this.married ? "Yes" : "No",
         contract_type: this.contract_type,
-        has_premium_tech_support: this.has_premium_tech_support || "No",
-        has_device_protection: this.has_device_protection || "No",
-        has_online_backup: this.has_online_backup || "No",
+        has_premium_tech_support: this.has_premium_tech_support ? "Yes" : "No",
+        has_device_protection: this.has_device_protection ? "Yes" : "No",
+        has_online_backup: this.has_online_backup ? "Yes" : "No",
       };
       const api = "https://" + process.env.VITE_VUE_APP_PREDICT_URL + "/predict";
       axios.post(
